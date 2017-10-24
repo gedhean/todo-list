@@ -1,3 +1,8 @@
-JavaScript course by Watch and Code.
+# Todo List Web App
 
-Project: Create a Todo List.
+This project is a simple Todo List. You can add, modify and delete todos. 
+
+Althogh it's simple, I had exercised a lot of important concepts about JavaScript.
+
+I made this project when I was doing the [Practical JavaScript](https://watchandcode.com/p/practical-javascript) course.
+
