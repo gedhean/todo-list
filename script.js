@@ -1,4 +1,3 @@
-// Code goes here
 
 var todoList = {
     todos: [],
@@ -21,20 +20,20 @@ var todoList = {
             todoText: todoText,
             completed: false
         });
-        this.displayTodos();
+        view.displayTodos();
     },
     changeTodo: function(position, todoText) {
         this.todos[position].todoText = todoText;
-        this.displayTodos();
+        view.displayTodos();
     },
     deleteTodo: function(position) {
         this.todos.splice(position, 1);
-        this.displayTodos();
+        view.displayTodos();
     },
     toggleCompleted: function(position) {
         var todo = this.todos[position];
         todo.completed = !todo.completed;
-        this.displayTodos();
+        view.displayTodos();
     },
     toggleAll: function(){
         var totalTodos = this.todos.length;
@@ -56,7 +55,7 @@ var todoList = {
                 this.todos[i].completed = true;
             }
         }
-        this.displayTodos();
+        view.displayTodos();
     }
 };
 
@@ -64,7 +63,7 @@ var todoList = {
 var handlers = {
     //Display Todos botton must run displayTodoList()
     displayTodos: function() {
-        todoList.displayTodos();
+        view.displayTodos();
     },
     //Toggle Todos botton must run toggleAll()
     toggleAll: function() { 
@@ -83,18 +82,74 @@ var handlers = {
         changeTodoPositionInput.value = '';
         changeTodoTextInput.value = '';
     },
-    deleteTodo: function() {
-        var deleteTodoPositionInput = document.getElementById('deleteTodoPositionInput');
-        todoList.deleteTodo(deleteTodoPositionInput.valueAsNumber);
-        deleteTodoPositionInput.value = '';
+    deleteTodo: function(position) {
+        todoList.deleteTodo(position);
     },
-    toggleCompleteTodo: function() {
-        var toggleCompleteTodoPositionInput = document.getElementById('toggleCompleteTodoPositionInput');
-        todoList.toggleCompleted(toggleCompleteTodoPositionInput.valueAsNumber);
-        toggleCompleteTodoPositionInput.value = '';
+    toggleCompleteTodo: function(position) {
+        todoList.toggleCompleted(position);
     }
 };
 
+var view = {
+    createDeleteButton: function() {
+        var buttonDelete = document.createElement('i');
+        
+        //buttonDelete.textContent = 'Delete';
+        buttonDelete.className = 'deleteBtn fa fa-close';
 
+        return buttonDelete;
+    },
+    createCompletedButton: function(completed) {
+        var buttonCompleted = document.createElement('i');
+        
+        if(completed === true) {
+            buttonCompleted.className = 'completedBtn fa fa-check-square-o';
+        } else {
+            buttonCompleted.className = 'completedBtn fa fa-square-o';
+        }
+        
+        return buttonCompleted;
+    },
+    displayTodos: function() {
+        //debugger;
+        var todoUL = document.querySelector('ul.todos');
+        var todos = todoList.todos;
+        //Replaces the ul content with an empty string
+        todoUL.innerHTML = '';
+        
+        todos.forEach(function(todo, position) {
+            var todoLI = document.createElement('li'); 
 
+            todoLI.appendChild(this.createCompletedButton(todo.completed));          
+            
+            if(todo.completed === true) {  
+                todoLI.append('  '+todo.todoText); 
+            } else {
+                todoLI.append('  '+todo.todoText);
+            }
+            
+            todoLI.id = position;
+            todoLI.appendChild(this.createDeleteButton());
+            todoUL.appendChild(todoLI);
+        }, this);
+    },
+    clickToDelete: function() {
+        var todoUL = document.querySelector('ul.todos');
+        
+        todoUL.addEventListener('click', function(event) {
+            //Get the element that was clicked
+            var elementClicked = event.target;
+            
+            if(elementClicked.className === 'deleteBtn fa fa-close') {
+                handlers.deleteTodo(parseInt(elementClicked.parentNode.id));
+            } else if(elementClicked.className === 'completedBtn fa fa-check-square-o' ||
+                      elementClicked.className === 'completedBtn fa fa-square-o') {
+                handlers.toggleCompleteTodo(parseInt(elementClicked.parentNode.id));
+            } 
+        });
+    }
+};
+
+//Waiting for the click on 'Delete' button to delete
+view.clickToDelete();
 
