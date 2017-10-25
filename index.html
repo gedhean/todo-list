@@ -11,20 +11,13 @@
         <h1>Todo List</h1>
         
         <div>
-            <button onclick="handlers.toggleAll()">Toggle Todos</button>
+            <button onclick="handlers.toggleAll()">Toggle All</button>
         </div>
         
         <div>
-            <button onclick="handlers.addTodo()">Add Todo</button>
-            <input type="text" id="addTodoInputText">
+            <input type="text" id="addTodoInputText" onkeydown="handlers.addTodo(event)" placeholder="Type and hit Enter to add">
         </div>
-        
-        <div>
-            <button onclick="handlers.changeTodo()">Change Todo</button>
-            <input type="number" id="changeTodoPositionInput">
-            <input type="text" id="changeTodoTextInput">
-        </div>
-                
+                        
         <ul class="todos">
             
         </ul>

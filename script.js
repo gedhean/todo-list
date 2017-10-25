@@ -69,18 +69,15 @@ var handlers = {
     toggleAll: function() { 
         todoList.toggleAll();
     },
-    addTodo: function() {
-        var addTodoInputText = document.getElementById('addTodoInputText');
-        todoList.addTodo(addTodoInputText.value);
-        addTodoInputText.value = '';
+    addTodo: function(event) {
+        if (event.key === "Enter") {
+            var addTodoInputText = document.getElementById('addTodoInputText');
+            todoList.addTodo(addTodoInputText.value);
+            addTodoInputText.value = '';
+        } 
     },
-    changeTodo: function() {
-        var changeTodoPositionInput = document.getElementById('changeTodoPositionInput');
-        var changeTodoTextInput = document.getElementById('changeTodoTextInput');
-        
-        todoList.changeTodo(changeTodoPositionInput.valueAsNumber, changeTodoTextInput.value);
-        changeTodoPositionInput.value = '';
-        changeTodoTextInput.value = '';
+    changeTodo: function(position, changeTodoTextInput) {      
+        todoList.changeTodo(position, changeTodoTextInput);
     },
     deleteTodo: function(position) {
         todoList.deleteTodo(position);
@@ -123,15 +120,23 @@ var view = {
             todoLI.appendChild(this.createCompletedButton(todo.completed));          
             
             if(todo.completed === true) {  
-                todoLI.append('  '+todo.todoText); 
+                todoLI.append(todo.todoText); 
             } else {
-                todoLI.append('  '+todo.todoText);
+                todoLI.append(todo.todoText);
             }
             
             todoLI.id = position;
             todoLI.appendChild(this.createDeleteButton());
             todoUL.appendChild(todoLI);
         }, this);
+
+        if(todos.length === 0) {
+            var todoListIsEmpty = document.createElement('p');
+
+            todoListIsEmpty.className = 'todoListIsEmpty';
+            todoListIsEmpty.textContent = 'Your todo list is empty';
+            todoUL.appendChild(todoListIsEmpty);
+        }
     },
     clickToDelete: function() {
         var todoUL = document.querySelector('ul.todos');
@@ -147,9 +152,34 @@ var view = {
                 handlers.toggleCompleteTodo(parseInt(elementClicked.parentNode.id));
             } 
         });
+
+        todoUL.addEventListener('dblclick', function(event) {
+            //debugger;
+            var elementClicked = event.target;
+            var position = parseInt(elementClicked.id);
+            var changeTodoTextInput = document.createElement('input');
+
+            changeTodoTextInput.className = 'changeTodoTextInput';
+            changeTodoTextInput.value = elementClicked.textContent;
+            elementClicked.textContent = '';
+            elementClicked.appendChild(changeTodoTextInput);
+
+            changeTodoTextInput.focus();
+            changeTodoTextInput.select();
+
+            changeTodoTextInput.addEventListener('keydown', function(event) {
+                //debugger;
+                //console.log(position, changeTodoTextInput);
+                if(event.key === 'Enter') {
+                    handlers.changeTodo(position, changeTodoTextInput.value);
+                    elementClicked.removeChild(changeTodoTextInput); 
+                }
+            }); 
+        });
     }
 };
 
 //Waiting for the click on 'Delete' button to delete
+view.displayTodos();
 view.clickToDelete();
 
