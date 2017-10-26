@@ -2,20 +2,16 @@
 <html>
 
   <head>
-    <link rel="stylesheet" href="node_modules/font-awesome/css/font-awesome.css">
     <link rel="stylesheet" href="style.css">
   </head>
 
   <body>
     <div class="container">
         <h1>Todo List</h1>
-        
-        <div>
-            <button onclick="handlers.toggleAll()">Toggle All</button>
-        </div>
-        
+                
         <div>
             <input type="text" id="addTodoInputText" onkeydown="handlers.addTodo(event)" placeholder="Type and hit Enter to add">
+            <button class="toggleAll" onclick="handlers.toggleAll()">Toggle All</button>
         </div>
                         
         <ul class="todos">

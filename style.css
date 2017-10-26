@@ -2,6 +2,7 @@
 
 * {
 	font-family: Arial, sans-serif;
+	font-size: 14px;
 	margin: 0;
 	padding: 0;
 	border: 0;
@@ -44,8 +45,12 @@ ul li {
 	margin-bottom: 5px;
 }
 
-i.deleteBtn {
+img.deleteBtn {
 	float: right;
+}
+
+img.completedBtn {
+	margin-right: 10px;
 }
 
 #addTodoInputText {
@@ -66,11 +71,10 @@ i.deleteBtn {
 	margin: 50px 0;
 }
 
-.fa-check-square-o, .fa-square-o {
-	color: #B4EAAF;
-	margin-right: 10px;
-}
-
-.fa-close {
-	color:#FF0018;
+.toggleAll {
+	/*float: right;*/
+	margin-left: 380px;
+	background-color: #fff;
+	border-radius: 10%;
+	border: 1px #ddd solid;
 }

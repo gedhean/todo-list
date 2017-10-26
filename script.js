@@ -89,20 +89,23 @@ var handlers = {
 
 var view = {
     createDeleteButton: function() {
-        var buttonDelete = document.createElement('i');
+        var buttonDelete = document.createElement('img');
         
         //buttonDelete.textContent = 'Delete';
-        buttonDelete.className = 'deleteBtn fa fa-close';
+        buttonDelete.src = 'img/delete.png';
+        buttonDelete.className = 'deleteBtn';
 
         return buttonDelete;
     },
     createCompletedButton: function(completed) {
-        var buttonCompleted = document.createElement('i');
+        var buttonCompleted = document.createElement('img');
         
         if(completed === true) {
-            buttonCompleted.className = 'completedBtn fa fa-check-square-o';
+            buttonCompleted.src = 'img/checked.png';
+            buttonCompleted.className = 'completedBtn';
         } else {
-            buttonCompleted.className = 'completedBtn fa fa-square-o';
+            buttonCompleted.src = 'img/unchecked.png';
+            buttonCompleted.className = 'completedBtn';
         }
         
         return buttonCompleted;
@@ -145,10 +148,10 @@ var view = {
             //Get the element that was clicked
             var elementClicked = event.target;
             
-            if(elementClicked.className === 'deleteBtn fa fa-close') {
+            if(elementClicked.className === 'deleteBtn') {
                 handlers.deleteTodo(parseInt(elementClicked.parentNode.id));
-            } else if(elementClicked.className === 'completedBtn fa fa-check-square-o' ||
-                      elementClicked.className === 'completedBtn fa fa-square-o') {
+            } else if(elementClicked.className === 'completedBtn' ||
+                      elementClicked.className === 'completedBtn') {
                 handlers.toggleCompleteTodo(parseInt(elementClicked.parentNode.id));
             } 
         });
